@@ -12,6 +12,8 @@
 ; ugh
 (def controls (atom nil))
 
+(def headset (atom false))
+
 (defn rnd [] (.random js/Math))
 
 (def pi js/Math.PI)
@@ -92,7 +94,9 @@
       (.update @controls dt))
 
     (defn render-frame [dt]
-      (.render effect scene camera))
+      (if @headset
+        (.render effect scene camera)
+        (.render renderer scene camera)))
 
     (defn animate [t]
       (js/requestAnimationFrame animate)
@@ -105,12 +109,13 @@
     
     (defn setOrientationControls [e]
       (when (aget e "alpha")
+        (reset! headset true)
         (let [new-controls (js/THREE.DeviceOrientationControls. camera true)]
           (.connect new-controls)
           (.update new-controls)
           (.removeEventListener js/window "deviceorientation" setOrientationControls true)
           (reset! controls new-controls))
-        (element.addEventListener "click" fullscreen false)))
+        (.addEventListener element "click" fullscreen false)))
     
     ; *** Launch *** ;
     
