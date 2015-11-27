@@ -28,7 +28,7 @@
         effect (js/THREE.StereoEffect. renderer)
         scene (js/THREE.Scene.)
         camera (js/THREE.PerspectiveCamera. 90 1 0.001 700)
-        light (js/THREE.HemisphereLight. 0x777777 0x000000 0.6)
+        light (js/THREE.HemisphereLight. 0x777777 0x000000 1.0)
         material (js/THREE.MeshPhongMaterial. {:color 0x88ff88
                                               :specular 0x888888
                                               :shininess 10
@@ -78,6 +78,12 @@
         (set! (.-z (.-scale o)) (* 0.5 (rnd)))
         (.add scene o)))
     
+    ; add a moon
+    (let [moon (js/THREE.Mesh. (js/THREE.SphereGeometry. 2.5 32 32) (js/THREE.MeshLambertMaterial. {:color 0xffffff}))]
+      (set! (.-y (.-position moon)) 15)
+      (set! (.-x (.-position moon)) 5)
+      (.add scene moon))
+
     ; *** Functions *** ;
     
     (defn resize []
