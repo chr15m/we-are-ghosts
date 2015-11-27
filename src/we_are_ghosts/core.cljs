@@ -100,12 +100,11 @@
       (render-frame (.getDelta clock)))
 
     (defn fullscreen [ev]
-      (js/alert "fullscreen")
       (cond (aget container "requestFullscreen") (.requestFullscreen container)
             (aget container "webkitRequestFullscreen") (.webkitRequestFullscreen container)))
-
+    
     (defn setOrientationControls [e]
-      (if (aget e "alpha")
+      (when (aget e "alpha")
         (let [new-controls (js/THREE.DeviceOrientationControls. camera true)]
           (.connect new-controls)
           (.update new-controls)
