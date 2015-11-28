@@ -6,7 +6,8 @@
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [cljsjs/three "0.0.72-0"]]
 
   :plugins [[lein-cljsbuild "1.1.0"]
             [lein-figwheel "0.4.1"]]
@@ -28,9 +29,9 @@
                          :source-map-timestamp true }}
              {:id "min"
               :source-paths ["src"]
-              :compiler {:output-to "resources/public/js/compiled/we_are_ghosts.js"
+              :compiler {:output-to "build/js/compiled/we_are_ghosts.js"
                          :main we-are-ghosts.core
-                         :optimizations :advanced
+                         :optimizations :simple
                          :pretty-print false}}]}
 
   :figwheel {
