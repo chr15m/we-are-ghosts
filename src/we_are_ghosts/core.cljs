@@ -29,6 +29,7 @@
         scene (js/THREE.Scene.)
         camera (js/THREE.PerspectiveCamera. 90 1 0.001 700)
         light (js/THREE.HemisphereLight. 0x777777 0x000000 1.0)
+        ambient-light (js/THREE.AmbientLight. 0x0c0c0c)
         material (js/THREE.MeshPhongMaterial. {:color 0x88ff88
                                               :specular 0x888888
                                               :shininess 10
@@ -58,12 +59,13 @@
     (set! (.-noPan @controls) true)
     
     (.add scene light)
+    (.add scene ambient-light)
     
     (set! (.-x mesh.rotation) (* (/ js/Math.PI 2) -1))
     (.add scene mesh)
 
     ; add cubes
-    (doseq [i (range 100)]
+    (doseq [i (range 50)]
       (let [o (js/THREE.Mesh. geometry-cube (js/THREE.MeshLambertMaterial. {:color (* (rnd) 0xffffff)}))]
         (set! (.-x (.-position o)) (- (* 400 (rnd)) 200))
         (set! (.-y (.-position o)) (- (* 10 (rnd)) 5))
@@ -77,11 +79,27 @@
         (set! (.-y (.-scale o)) (* 0.5 (rnd)))
         (set! (.-z (.-scale o)) (* 0.5 (rnd)))
         (.add scene o)))
+
+    ; add trees
+    (doseq [i (range 30)]
+      (let [o (js/THREE.Mesh. (js/THREE.OctahedronGeometry. 10) (js/THREE.MeshLambertMaterial. {:color 0x00ff00}))]
+        (set! (.-x (.-position o)) (- (* 400 (rnd)) 200))
+        ; (set! (.-y (.-position o)) (- (* 10 (rnd)) 5))
+        (set! (.-z (.-position o)) (- (* 400 (rnd)) 200))
+        
+        (let [base-size (+ 0.5 (rnd))]
+          (set! (.-x (.-scale o)) base-size)
+          (set! (.-z (.-scale o)) base-size))
+        (set! (.-y (.-scale o)) (+ 5.0 (rnd)))
+        
+        (.setHex (.-emissive (.-material o)) 0x001100)
+        (.add scene o)))
     
     ; add a moon
-    (let [moon (js/THREE.Mesh. (js/THREE.SphereGeometry. 2.5 32 32) (js/THREE.MeshLambertMaterial. {:color 0xffffff}))]
-      (set! (.-y (.-position moon)) 15)
-      (set! (.-x (.-position moon)) 5)
+    (let [moon (js/THREE.Mesh. (js/THREE.SphereGeometry. 50.0 32 32) (js/THREE.MeshLambertMaterial. {:color 0xffffff}))]
+      (set! (.-y (.-position moon)) 100)
+      (set! (.-x (.-position moon)) 100)
+      (.setHex (.-emissive (.-material moon)) 0x111111)
       (.add scene moon))
 
     ; *** Functions *** ;
