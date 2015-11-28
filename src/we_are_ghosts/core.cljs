@@ -33,9 +33,7 @@
         material (js/THREE.MeshPhongMaterial. {:color 0x88ff88
                                               :specular 0x888888
                                               :shininess 10
-                                              :shading js/THREE.FlatShading
-                                              ; :map texture
-                                              })
+                                              :shading js/THREE.FlatShading})
         geometry-floor (js/THREE.PlaneGeometry. 1000 1000)
         geometry-cube (js/THREE.BoxGeometry. 20 20 20)
         mesh (js/THREE.Mesh. geometry-floor material)]
